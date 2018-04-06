@@ -8,7 +8,7 @@ import org.apache.spark.sql.SparkSession;
 
 public class BatchRunner {
 
-    public static final String CASSANDRA_KEYSPACE = "cassandra_keyspace";
+    public static final String CASSANDRA_KEYSPACE = "keyspace_name";
 
     public static void main(String[] args) {
 
@@ -39,10 +39,10 @@ public class BatchRunner {
 
         CassandraConnector connector = CassandraConnector.apply(sparkSession.sparkContext().conf());
         Session session = connector.openSession();
-        BoundStatement bs = session.prepare("insert into cassandra_keyspace.sample_table " +
-                "(column1, column2) " +
-                "values (?, ?)")
-                .bind("value for column 1", "value for column 2");
+        BoundStatement bs = session.prepare("insert into keyspace_name.sample_table" +
+                "(id, keyword, tweet_date, language, country, followers_len) " +
+                "values (?,?,?,?,?,?,?)")
+                .bind(3, "test", 2004-10-10, "test","test",3);
         session.execute(bs);
     }
 }
