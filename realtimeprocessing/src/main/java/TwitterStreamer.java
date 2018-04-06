@@ -2,6 +2,9 @@ import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TwitterStreamer {
 
     public static void main(String[] args) {
@@ -13,11 +16,14 @@ public class TwitterStreamer {
                 .setOAuthAccessTokenSecret("7O8hSJSXy4JpgBaM1oxbMrbQ2YHwvOKbtQzSKzfPb4pcT") // paste your OAUTH_ACCESS_TOKEN
                 .build();
 
+
+        List<TweetEntity> tweetsData = new ArrayList<>();
         StatusListener listener = new StatusListener() {
 
             public void onStatus(Status status) {
-
-                System.out.println(status.getText());
+//                TweetEntity tweet = new TweetEntity();
+//                tweet.setLanguage(status.getLang());
+//
             }
 
             public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
@@ -42,6 +48,7 @@ public class TwitterStreamer {
         TwitterStream twitterStream = new TwitterStreamFactory(configuration).getInstance();
         twitterStream.addListener(listener);
         twitterStream.filter(new FilterQuery().track("facebook", "instagram", "twitter"));
+
 
 
     }

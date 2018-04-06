@@ -41,7 +41,7 @@ public class BatchRunner {
         Session session = connector.openSession();
         BoundStatement bs = session.prepare("insert into keyspace_name.sample_table" +
                 "(id, keyword, tweet_date, language, country, followers_len) " +
-                "values (?,?,?,?,?,?,?)")
+                "values (?,?,?,?,?,?)")
                 .bind(3, "test", 2004-10-10, "test","test",3);
         session.execute(bs);
     }
