@@ -3,6 +3,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TwitterStreamer {
@@ -21,9 +22,20 @@ public class TwitterStreamer {
         StatusListener listener = new StatusListener() {
 
             public void onStatus(Status status) {
-//                TweetEntity tweet = new TweetEntity();
+                TweetEntity tweet = new TweetEntity();
 //                tweet.setLanguage(status.getLang());
-//
+//                tweet.setLanguage(status.getPlace());
+                System.out.println("\nText\n" + status.getText());
+                System.out.println("\nCreatedDate\n" + status.getCreatedAt());
+                System.out.println("\nSource\n" + status.getSource());
+                System.out.println("\nScopes\n" + status.getScopes());
+                System.out.println("\nId\n" + status.getId());
+                System.out.println("\nPlace\n" + status.getPlace());
+                System.out.println("\nLocation of user\n" + status.getUser().getLocation());
+                System.out.println("\nLanguage of user\n" + status.getUser().getLang());
+                System.out.println("\nCountry\n" + status.getPlace().getCountry());
+                System.out.println("\nRetweet count\n" + status.getRetweetCount());
+                System.out.println("\nContributors\n" + Arrays.toString(status.getContributors()));
             }
 
             public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
