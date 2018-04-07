@@ -1,7 +1,11 @@
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.LocalDate;
 import com.datastax.driver.core.Session;
+import scala.Tuple2;
 import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -27,6 +31,8 @@ public class TwitterStreamer {
                 .withPort(9042)
                 .build();
 
+        ActorSystem system = ActorSystem.create("system");
+        ActorRef repeater = system.actorOf(Props.create(tweetActor.class),"tweet");
 
         StatusListener listener = new StatusListener() {
 
@@ -58,6 +64,11 @@ public class TwitterStreamer {
                                 Optional.of(status.getRetweetCount()).orElse(0));
                 session.execute(bs);
                 session.close();
+
+
+
+                repeater.tell(new TweetDateTuple(status.getText(), status.getCreatedAt()),ActorRef.noSender());
+
             }
 
             public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
