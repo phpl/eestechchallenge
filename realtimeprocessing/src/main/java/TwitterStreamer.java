@@ -46,9 +46,10 @@ public class TwitterStreamer {
                 User user = status.getUser();
                 Session session = cluster.connect("keyspace_name");
                 BoundStatement bs = session.prepare("insert into sample_table" +
-                        "(id, tweet, created_date, language, country, folowers_count, retweet_count) " +
-                        "values (?,?,?,?,?,?,?)")
+                        "(id, username_id, tweet, created_date, language, country, folowers_count, retweet_count) " +
+                        "values (?,?,?,?,?,?,?,?)")
                         .bind(Optional.of(status.getId()).orElse(0L),
+                                status.getUser().getId(),
                                 Optional.ofNullable(status.getText()).orElse(""),
                                 LocalDate.fromMillisSinceEpoch(status.getCreatedAt() != null ? status.getCreatedAt().getTime() : new Date().getTime()),
                                 Optional.ofNullable(status.getUser().getLang()).orElse(""),
